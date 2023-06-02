@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" />
+    <title>SubliColor</title>
+
+    <link rel="icon" type="image/jpg" href="~/Assets/images/icons/favicon.ico" />
+    <link href="/assets/css/sweetalert2.css" rel="stylesheet" />
+    <script src="/assets/js/sweetalert2.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/ambiance.css">
+</head>
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+              <img width="120px" height="80px" src="/assets/images/logo.png">
+
+
+              <button type="button" id="sidebarCollapse" class="btn ">
+                  <i class="fa fa-arrow-left" aria-hidden="true"></i>
+
+              </button>
+
+            </div>
+
+            <hr style="height: 1px;background-color: white;border: none;" />
+            <label id="lblNombreUsuario"></label>
+            <label id="lblCargo"></label>
+            <hr style="height: 1px;background-color: white;border: none;" />
+
+
+            <ul class="list-unstyled components">
+              <li id="sidebarCollapse_" class="btn btn-info" style="background-color: #fff">
+                <i class="fa-solid fa-arrow-right" aria-hidden="true" style="color:#000"></i>
+            </li>
+                <li class="">
+                    <a onclick="loadPage('home.html')">
+                        <i class="fa fa-home"></i>
+                        Inicio
+                    </a>
+                </li>
+                <li id="liCatalogo" class="">
+                    <a href="#CatalogoSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-book-open"></i>
+                        Catalogo
+                    </a>
+                    <ul class="collapse list-unstyled" id="CatalogoSubMenu">
+                        <li id="" class="Asignatura">
+                            <a onclick="loadPage('/pages/AdminProducto.html')" >
+                                <i class="fa fa-book"></i>
+                                Productos
+                            </a>
+                        </li>
+                        <li id="" class="Asignatura">
+                          <a onclick="loadPage('/pages/AdminVentas.html')" >
+                              <i class="fa fa-book"></i>
+                              Ventas
+                          </a>
+                      </li>
+                      <li id="" class="Asignatura">
+                        <a onclick="loadPage('/pages/AdminClientes.html')" >
+                            <i class="fa fa-book"></i>
+                            Clientes
+                        </a>
+                    </li>
+                    </ul>
+
+                <li id="liAdministracion" class="">
+                    <a href="#AdministracionSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa-solid fa-clipboard"></i>
+                        Administracion
+                    </a>
+                    <ul class="collapse list-unstyled" id="AdministracionSubMenu">
+                        <!-- <li id="" class="Cargos">
+                            <a onclick="loadPage('AdminCargos.html')">
+                                <i class="fas fa-user-tie"></i>
+                                Cargos
+                            </a>
+                        </li> -->
+                        <li id="" class="CuentaUsuario">
+                            <a onclick="loadPage('/pages/AdminUsuario.html')">
+                                <i class="fas fa-user-tie"></i>
+                                Cuenta de usuario
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li id="liReportes" class="">
+                    <a href="#ReportesSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa-solid fa-clipboard"></i>
+                        Reportes
+                    </a>
+                    <ul class="collapse list-unstyled" id="ReportesSubMenu">
+                        <li id="" class="ListRep">
+                            <a href="#ReporteEmpleadoSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="fas fa-user-tie"></i>
+                                Empleados
+                            </a>
+                            <ul class="collapse list-unstyled" id="ReporteEmpleadoSubmenu">
+                                <li>
+                                    <a id="rptEmpleado" style="cursor:pointer">
+                                        <i class="fa fa-book-open"></i>
+                                        Generar
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="" class="ListRep">
+                            <a href="#ReportePagoSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="fas fa-user-tie"></i>
+                                Estudiante
+                            </a>
+                            <ul class="collapse list-unstyled" id="ReportePagoSubmenu">
+                                <li>
+                                    <a id="rptEstudiante" style="cursor:pointer">
+                                        <i class="fa fa-book-open"></i>
+                                        Generar
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </nav>
+    </div>
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+              <button type="button" id="sidebarCollapse_1" class="btn btn-info">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+                <span style="color:rgba(0,52,133,255); font-weight:bold; font-size:20px;">Sublimaciones a color (SUBLICOLOR)</span>
+
+                <a type="button" id="" class="btn btn-info" href="/InicioSesion/CerrarSesion">
+                    <i class="fa fa-sign-out"></i>
+                </a>
+            </div>
+        </nav>
+        <div id="mainContent"></div>
+        <hr />
+        <footer>
+          <p>&copy; Dev By Isela Ramos, Kelin Martinez, Pedro Chávez</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/js/dashboard.js"></script>
+    <script src="/assets/js/ambiance.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-loading-overlay/2.1.7/loadingoverlay.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+</body>
+</html>
