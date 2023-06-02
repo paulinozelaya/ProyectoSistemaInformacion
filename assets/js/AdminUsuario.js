@@ -1,6 +1,6 @@
 var ParameterJson = "";
 var StoreProcedure = "";
-var urlApi = 'https://localhost:7075/api/GenericMethodRequest'
+var urlApi = 'https://apisublicolor.azurewebsites.net/api/GenericMethodRequest'
 
 
 $(document).ready(function() {

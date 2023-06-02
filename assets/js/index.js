@@ -1,6 +1,6 @@
 (function ($) {
     "use strict";
-    var urlApi = 'https://localhost:7075/api/GenericMethodRequest'
+    var urlApi = 'https://apisublicolor.azurewebsites.net/api/GenericMethodRequest'
      /*==================================================================
     [ Focus input ]*/
     $('.input100').each(function(){
