@@ -22,7 +22,7 @@ function desbloquearPantalla() {
 
 function BindEvent() {
   $("#btnCatalogoDigital").on('click', function () {
-    window.open("/assets/document/Catalogo 2023 Subli Color.pdf", '_blank');
+    window.open("assets/document/Catalogo 2023 Subli Color.pdf", '_blank');
   })
 
   $(document).on('click', '.editar', function () {
