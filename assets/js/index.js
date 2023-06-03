@@ -62,7 +62,7 @@
                       localStorage.setItem("UsuarioLogueado",true);
 
                       setTimeout(function() {
-                        window.location.pathname = window.location.pathname+'dashboard.html'                                             
+                        window.location.href = 'https://paulinozelaya.github.io/ProyectoSistemaInformacion/dashboard.html'                                             
                       }, 800);
                   }else if(!response.status){
                     $.ambiance({
