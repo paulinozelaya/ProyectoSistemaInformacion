@@ -1,5 +1,6 @@
 (function ($) {
     "use strict";
+    localStorage.removeItem("UsuarioLogueado")
     var urlApi = 'https://apisublicolor.azurewebsites.net/api/GenericMethodRequest'
      /*==================================================================
     [ Focus input ]*/
@@ -58,9 +59,11 @@
                         fade: false,
                       }); 
 
+                      localStorage.setItem("UsuarioLogueado",true);
+
                       setTimeout(function() {
                         window.location.pathname = '/dashboard.html'                                             
-                      }, 2000);
+                      }, 800);
                   }else if(!response.status){
                     $.ambiance({
                         title: "Error!",

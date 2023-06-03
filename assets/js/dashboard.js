@@ -1,4 +1,20 @@
 $(document).ready(function () {
+
+    let EstaLogueado = localStorage.getItem("UsuarioLogueado")
+
+    if(!EstaLogueado){
+        window.location.href = window.location.origin
+        return false;
+    }
+
+    $("#btnCerrarSesion").click(function(){
+        window.location.href = window.location.origin
+    })
+
+    if($("#mainContent").html() == ''){
+        loadPage("/pages/home.html")
+    }
+
   $('.solo-numero').bind('keypress', function (e) {
       var regex = new RegExp("^[0-9]+$");
       var key = String.fromCharCode(!event.CharCode ? event.which : event.CharCode)

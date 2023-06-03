@@ -2,7 +2,7 @@ var ParameterJson = "";
 var StoreProcedure = "";
 var urlApi = 'https://apisublicolor.azurewebsites.net/api/GenericMethodRequest'
 var GuardarVenta = "";
-
+var CompraProductos = "";
 
 $(document).ready(function () {
   BindEvent();
@@ -10,7 +10,7 @@ $(document).ready(function () {
 });
 
 function Init() {
-  CargarProducto();
+  CargarVenta();
 }
 
 function bloquearPantalla() {
@@ -37,7 +37,9 @@ function permitirNumerosPositivos(valor) {
 }
 
 function BindEvent() {
-
+  $("#btnGuardarModal").click(function(){
+    GuardadoVenta(CompraProductos);
+  })
 
 
   $("#Fecha").val(new Date().toLocaleString('es-ES', {
@@ -180,77 +182,77 @@ function BindEvent() {
     $('#Estado').val('');
   });
   // Evento click en el botón "Guardar" del modal
-  $('#btnGuardarModal').click(function () {
-    // Obtener el ID del producto guardado en el atributo data
-    var idProducto = $(this).attr('data-idproducto');
+//   $('#btnGuardarModal').click(function () {
+//     // Obtener el ID del producto guardado en el atributo data
+//     var idProducto = $(this).attr('data-idproducto');
 
-    // Obtener los valores de los campos del formulario
-    var nombre = $('#Nombre').val();
-    var precio = $('#Precio').val();
-    var descuento = $('#Descuento').val();
-    var cantidad = $('#CantidadDisponible').val();
-    var estado = $('#Estado').val();
+//     // Obtener los valores de los campos del formulario
+//     var nombre = $('#Nombre').val();
+//     var precio = $('#Precio').val();
+//     var descuento = $('#Descuento').val();
+//     var cantidad = $('#CantidadDisponible').val();
+//     var estado = $('#Estado').val();
 
-    // Construir el objeto JSON a enviar
-    var objetoJson = {
-      IdProducto: idProducto,
-      NombreProducto: nombre,
-      PrecioUnitario: precio,
-      DescuentoPorcentaje: descuento,
-      CantidadProducto: cantidad,
-      EstadoProducto: estado,
-      EsEditar: true,
-    };
+//     // Construir el objeto JSON a enviar
+//     var objetoJson = {
+//       IdProducto: idProducto,
+//       NombreProducto: nombre,
+//       PrecioUnitario: precio,
+//       DescuentoPorcentaje: descuento,
+//       CantidadProducto: cantidad,
+//       EstadoProducto: estado,
+//       EsEditar: true,
+//     };
 
-    // Convertir el objeto JSON a una cadena JSON    
-    ParameterJson = "";
-    StoreProcedure = "";
-    ParameterJson = JSON.stringify(objetoJson);
-    StoreProcedure = "[Negocio].[prGuardarProducto]";
-    $.ajax({
-      url: `${urlApi}?parameterJson=${ParameterJson}&storeProcedure=${StoreProcedure}`,
-      method: "GET",
-      dataType: "json",
-      beforeSend: function () {
-        bloquearPantalla();
-      },
-      success: function (response) {
-        desbloquearPantalla();
-        CargarProducto();
-        response = JSON.parse(response)[0]
-        $.ambiance({
-          title: response.status == 1 ? "Exito!" : "Error!",
-          message: response.message,
-          type: response.status == 1 ? "success" : "error",
-          fade: false,
-        });
-      },
-      error: function (xhr, status, error) {
-        desbloquearPantalla();
-        $.ambiance({
-          title: "Error!",
-          message: "Ocurrio un error, contactar al adminsitrador",
-          type: "error",
-          fade: false,
-        });
-      }
-    });
+//     // Convertir el objeto JSON a una cadena JSON    
+//     ParameterJson = "";
+//     StoreProcedure = "";
+//     ParameterJson = JSON.stringify(objetoJson);
+//     StoreProcedure = "[Negocio].[prGuardarProducto]";
+//     $.ajax({
+//       url: `${urlApi}?parameterJson=${ParameterJson}&storeProcedure=${StoreProcedure}`,
+//       method: "GET",
+//       dataType: "json",
+//       beforeSend: function () {
+//         bloquearPantalla();
+//       },
+//       success: function (response) {
+//         desbloquearPantalla();
+//         CargarVenta();
+//         response = JSON.parse(response)[0]
+//         $.ambiance({
+//           title: response.status == 1 ? "Exito!" : "Error!",
+//           message: response.message,
+//           type: response.status == 1 ? "success" : "error",
+//           fade: false,
+//         });
+//       },
+//       error: function (xhr, status, error) {
+//         desbloquearPantalla();
+//         $.ambiance({
+//           title: "Error!",
+//           message: "Ocurrio un error, contactar al adminsitrador",
+//           type: "error",
+//           fade: false,
+//         });
+//       }
+//     });
 
-    // Cerrar el modal
-    $('#Nombre').val('');
-    $('#Precio').val('');
-    $('#Descuento').val('');
-    $('#CantidadDisponible').val('');
-    $('#Estado').val('');
-    $('#agregarModal').modal('hide');
-  });
-}
+//     // Cerrar el modal
+//     $('#Nombre').val('');
+//     $('#Precio').val('');
+//     $('#Descuento').val('');
+//     $('#CantidadDisponible').val('');
+//     $('#Estado').val('');
+//     $('#agregarModal').modal('hide');
+//   });
+ }
 
-function CargarProducto() {
+function CargarVenta() {
   ParameterJson = "";
   StoreProcedure = "";
   ParameterJson = `{}`
-  StoreProcedure = "[Negocio].[prObtenerProductos]";
+  StoreProcedure = "[Negocio].[prObtenerVentas]";
   $.ajax({
     url: `${urlApi}?parameterJson=${ParameterJson}&storeProcedure=${StoreProcedure}`,
     method: "GET",
@@ -259,8 +261,15 @@ function CargarProducto() {
       bloquearPantalla();
     },
     success: function (response) {
-      if (response) {
-        desbloquearPantalla();
+      desbloquearPantalla();
+      if(response.status == "Error" && response.message.includes("could")){    
+        $.ambiance({
+          title: response.status,
+          message: "Ocurrio un error, contactar al administrador",
+          type: "error",
+          fade: false,
+        });
+      } else if (response.status != "Error") {
         CargarFilas(JSON.parse(response))
       }
     },
@@ -282,65 +291,25 @@ function CargarFilas(datosFila) {
 
   tabla.empty();
   datosFila.forEach(element => {
-    let row = `<tr id= "${element.IdProducto}">
+    let row = `<tr id= "${element.IdVenta}">
+        <td>${element.NombreCliente}</td>
         <td>${element.NombreProducto}</td>
-        <td>${element.PrecioUnitario}</td>
-        <td>${element.DescuentoPorcentaje}</td>
-        <td>${element.CantidadTotal}</td>
-        <td>${element.Estado}</td>
-        <td>
-        <a id=${element.IdProducto} class="btn btn-info editar" title="Editar"><i class="fa fa-edit" style="color:white"></i></a>
-        ${element.EstadoProducto ? 
-          `<a id=${element.IdProducto} class="btn btn-danger" title="Inactivar" onclick="ActivarInactivarProducto(0,${element.IdProducto})"><i class="fa fa-x" style="color:white"></i></a>`
-         :`<a id=${element.IdProducto} class="btn btn-success" title="Activar" onclick="ActivarInactivarProducto(1,${element.IdProducto})"><i class="fa fa-check" style="color:white"></i></a>`
-        }
-        </td>
+        <td>${element.Cantidad}</td>
+        <td>${element.Total}</td>
         </tr>  `;
     objeto.push(row);
   });
 
+  // <td>${element.Estado}</td>
+  // <td>
+  // <a id=${element.IdProducto} class="btn btn-info editar" title="Editar"><i class="fa fa-edit" style="color:white"></i></a>
+  // ${element.EstadoProducto ? 
+  //   `<a id=${element.IdProducto} class="btn btn-danger" title="Inactivar" onclick="ActivarInactivarProducto(0,${element.IdProducto})"><i class="fa fa-x" style="color:white"></i></a>`
+  //  :`<a id=${element.IdProducto} class="btn btn-success" title="Activar" onclick="ActivarInactivarProducto(1,${element.IdProducto})"><i class="fa fa-check" style="color:white"></i></a>`
+  // }
+  // </td>
+
   tabla.append(objeto);
-}
-
-function ActivarInactivarProducto(estado, idProducto) {
-  ParameterJson = "";
-  StoreProcedure = "";
-  var objetoJson = {
-    IdProducto: idProducto,
-    EstadoProducto: estado,
-    EsInactivar: 1
-  };
-  ParameterJson = JSON.stringify(objetoJson);
-  StoreProcedure = "[Negocio].[prGuardarProducto]";
-  $.ajax({
-    url: `${urlApi}?parameterJson=${ParameterJson}&storeProcedure=${StoreProcedure}`,
-    method: "GET",
-    dataType: "json",
-    beforeSend: function () {
-      bloquearPantalla();
-    },
-    success: function (response) {
-      desbloquearPantalla();
-      CargarProducto();
-      response = JSON.parse(response)[0]
-      $.ambiance({
-        title: response.status == 1 ? "Exito!" : "Error!",
-        message: response.message,
-        type: response.status == 1 ? "success" : "error",
-        fade: false,
-      });
-    },
-    error: function (xhr, status, error) {
-      desbloquearPantalla();
-      $.ambiance({
-        title: "Error!",
-        message: "Ocurrio un error, contactar al adminsitrador",
-        type: "error",
-        fade: false,
-      });
-    }
-  });
-
 }
 
 function ObtenerProducto() {
@@ -424,6 +393,7 @@ function calcularSuntotalFila() {
 }
 
 function obtenerCliente() {
+  $("#cmbCliente").empty();
   ParameterJson = "";
   StoreProcedure = "";
   ParameterJson = `{}`
@@ -506,10 +476,10 @@ function calcularTotales() {
   let rowcantidad = 0;
   let rowsubtotal = 0;
   let rowtotal = 0;
-  let CompraProductos = [];
+  CompraProductos = []
   if ($("#tbl-detalle-productos tbody tr").length > 0) {
     $("#tbl-detalle-productos tbody tr").each(function (indice, valor) {
-
+      valor = $("#tbl-detalle-productos tbody tr")[indice];
       rowprecio = 0;
       rowdescuento = 0;
       rowcantidad = 0;
@@ -520,16 +490,21 @@ function calcularTotales() {
       rowdescuento = Number($(valor).data('descuento'));
       rowcantidad = Number($(valor).data('cantidad'));
       rowsubtotal = rowcantidad * rowprecio;
-      rowdescuento = rowdescuento > 0 ? rowsubtotal * (rowdescuento / 100) : 0;
+      rowdescuento = rowdescuento //> 0 ? rowsubtotal * (rowdescuento / 100) : 0;
 
-      rowtotal = rowdescuento > 0 ? rowsubtotal - (rowsubtotal * rowdescuento) : rowsubtotal;
+      rowtotal = rowdescuento > 0 ? rowsubtotal - (rowsubtotal * (rowdescuento/100)) : rowsubtotal;
 
       subtotal += rowsubtotal;
       descuento += rowdescuento;
       total += rowtotal;
 
       let CompraProducto = ""
-      CompraProducto = `{"IdProducto":${Number($(valor).data('idproducto'))},"Cantidad":${Number($(valor).data('cantidad'))},"Descuento":${Number($(valor).data('descuento'))},"Precio":${Number($(valor).data('precio'))},"IdCliente":${$('#cmbCliente option:selected').val()},"Observacion":"${$("#Observacion").val()},"Subtotal":${subtotal},"DescuentoTotal":${descuento},"Total":${total}}`
+      CompraProducto = {"IdProducto":Number($(valor).data('idproducto')),
+      "Cantidad":Number($(valor).data('cantidad')),"Descuento":Number($(valor).data('descuento'))
+      ,"Precio":Number($(valor).data('precio')),
+      "IdCliente":$('#cmbCliente option:selected').val(),
+      "Observacion":$("#Observacion").val(),"Subtotal":subtotal,
+      "DescuentoTotal":rowdescuento,"Total":rowsubtotal}
       CompraProductos.push(CompraProducto)
     });
 
@@ -541,8 +516,6 @@ function calcularTotales() {
     $("#txtDescuento").val(null);
     $("#txtTotal").val(null);
   }
-
-  console.log(CompraProductos)
 }
 
 function eliminarRegisro(elemento) {
@@ -553,4 +526,55 @@ function eliminarRegisro(elemento) {
   fila.remove();
 
   calcularTotales();
+}
+
+function GuardadoVenta(Venta){
+  // Convertir el objeto JSON a una cadena JSON    
+  ParameterJson = "";
+  StoreProcedure = "";
+  ParameterJson = JSON.stringify(Venta)//JSON.stringify(Venta);
+  StoreProcedure = "[Negocio].[prGuardarVenta]";
+  $.ajax({
+    url: `${urlApi}?parameterJson=${ParameterJson}&storeProcedure=${StoreProcedure}`,
+    method: "GET",
+    dataType: "json",
+    beforeSend: function () {
+      bloquearPantalla();
+    },
+    success: function (response) {
+      desbloquearPantalla();
+      response = JSON.parse(response)[0]
+      
+      $.ambiance({
+        title: response.status == 1 ? "Exito!" : "Error!",
+        message: response.message,
+        type: response.status == 1 ? "success" : "error",
+        fade: false,
+      });
+
+      $("#cmbCliente").val('');
+      $("#cmbProducto").val('');
+      $("#Cantidad").val(null)
+      $("#Precio").val(null);
+      $("#Descuento").val(null);
+      $("#txtSubtotal").val(null);
+      $("#txtDescuento").val(null);
+      $("#txtTotal").val(null);
+      $("#Total").val(null);
+      $("#tbl-detalle-productos tbody").empty();
+      $("#Observacion").val(null);
+      $("#cmbCliente").val('');
+      $('#agregarModal').modal('hide');
+      CargarVenta();
+    },
+    error: function (xhr, status, error) {
+      desbloquearPantalla();
+      $.ambiance({
+        title: "Error!",
+        message: "Ocurrio un error, contactar al adminsitrador",
+        type: "error",
+        fade: false,
+      });
+    }
+  });
 }
