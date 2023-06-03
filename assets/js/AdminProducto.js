@@ -8,6 +8,21 @@ $(document).ready(function () {
   Init();
 });
 
+function permitirNumerosPositivos(valor) {
+  // Eliminar cualquier carácter que no sea un número
+  valor = valor.replace(/[^0-9]/g, '');
+
+  // Convertir a número entero
+  const numero = parseInt(valor, 10);
+
+  // Verificar si el número es un entero positivo
+  if (!isNaN(numero) && numero >= 0) {
+    return numero.toString();
+  } else {
+    return '';
+  }
+}
+
 function Init() {
   CargarProducto();
 }
@@ -21,6 +36,22 @@ function desbloquearPantalla() {
 }
 
 function BindEvent() {
+  $('#Precio').on('input', function () {
+    // Obtén el valor actual del campo de entrada
+    const valor = $(this).val();
+    $(this).val(permitirNumerosPositivos(valor));
+  });
+
+  $("#CantidadDisponible").on('input',function(){
+    const valor = $(this).val();
+    $(this).val(permitirNumerosPositivos(valor));   
+  })
+
+  $("#Descuento").on('input',function(){
+    const valor = $(this).val();
+    $(this).val(permitirNumerosPositivos(valor));   
+  })
+
   $("#btnCatalogoDigital").on('click', function () {
     window.open("https://paulinozelaya.github.io/ProyectoSistemaInformacion/assets/document/Catalogo 2023 Subli Color.pdf", '_blank');
   })
@@ -96,6 +127,16 @@ function BindEvent() {
     var descuento = $('#Descuento').val();
     var cantidad = $('#CantidadDisponible').val();
     var estado = $('#Estado').val();
+
+    if(Number(precio) <= 0){
+      $.ambiance({
+        title: "Error!",
+        message: "El precio no puede ser 0.",
+        type: "error",
+        fade: false,
+      });
+      return false;
+    }
 
     // Construir el objeto JSON a enviar
     var objetoJson = {

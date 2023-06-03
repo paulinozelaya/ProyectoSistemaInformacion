@@ -35,6 +35,22 @@
 
     $("#btnAcceder").on('click',function(){
 
+        var horaActual = new Date(); // Obtener la hora actual
+
+        // Obtener las partes específicas de la hora actual
+        var horas = horaActual.getHours();
+        var minutos = horaActual.getMinutes();
+        var segundos = horaActual.getSeconds();
+        var horavalidar = horas+':'+minutos+':'+segundos
+
+        let existebloqueado = localStorage.getItem('horadesbloqueo')
+
+        if(existebloqueado){
+            if(horavalidar <= existebloqueado){
+                return false;
+            }
+        }
+
         if(validateForm()){
             let user = $("#username").val();
             let pass = $("#password").val();
@@ -60,18 +76,46 @@
                       }); 
 
                       localStorage.setItem("UsuarioLogueado",true);
+                      localStorage.removeItem("horadesbloqueo");
 
                       setTimeout(function() {
                         window.location.href = 'https://paulinozelaya.github.io/ProyectoSistemaInformacion/dashboard.html'                                             
                       }, 800);
                   }else if(!response.status){
-                    $.ambiance({
-                        title: "Error!",
-                        message: response.message,
-                        type: "warning",
-                        fade: false,
-                      }); 
-                      
+                    
+                      let totalintentos = localStorage.getItem('intento')
+                      let intento = Number(totalintentos == null ? '0' : totalintentos) > 0 ? Number(totalintentos)+1 : 1
+
+                      if(intento == 3){
+                        $.ambiance({
+                            title: "Error!",
+                            message: 'Ha eccedido el limite, intento dentro de 1 minuto',
+                            type: "error",
+                            fade: false,
+                          });
+
+                          let minutosdebloqueo = horaActual.getMinutes()+1
+
+                           var horatotal = horas+':'+minutosdebloqueo+':'+segundos
+
+                        localStorage.setItem('horadesloqueo',horatotal)
+                        
+                        return false;
+                      }else{
+                        localStorage.setItem('intento',intento)
+                        $.ambiance({
+                            title: "Error!",
+                            message: response.message,
+                            type: "warning",
+                            fade: false,
+                          }); 
+                    }
+
+
+              
+                      if(Number(intento=3)){
+                          return false;
+                      }
                       
                   }
                    else{
