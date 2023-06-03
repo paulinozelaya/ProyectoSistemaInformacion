@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group d-flex justify-content-start">
-                        <button class="btn btn-success" data-toggle="modal" data-target="#agregarModal"><i class="fa fa-plus"></i> Agregar</button>
+                        <button id="abrirmodal" class="btn btn-success" data-toggle="modal" data-target="#agregarModal"><i class="fa fa-plus"></i> Agregar</button>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -74,18 +74,23 @@
           <!-- Campos del formulario -->
           <div class="form-group">
             <label for="fecha">Fecha</label>
-            <input type="text" class="form-control" id="Fecha">
+            <input type="text" class="form-control" id="Fecha" readonly>
           </div>
           <div class="form-group">
             <label for="cliente">Cliente</label>
             <div class="input-group">
+              <select class="form-control" id="cmbCliente">
+                <!-- Opciones del select2 -->
+              </select>
+            </div>
+            <!-- <div class="input-group">
               <input type="text" class="form-control" id="Cliente">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="button">
                   <i class="fa fa-search"></i>
                 </button>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="form-group">
             <label for="observacion">Observación</label>
@@ -101,6 +106,7 @@
                           Detalle de productos agregados
                         </div>
                         <div class="card-body">
+                          <div class="table-responsive">
                           <table class="table">
                             <thead>
                               <tr>
@@ -112,42 +118,42 @@
                                  <th>...</th>
                               </tr>
                             </thead>
-                            <tbody id="tblDetalleProductos">
+                            <tbody>
                                 <tr>
-                                    <td>
-                                        <select class="form-control" id="Producto">
+                                    <td >
+                                        <select class="form-control" id="cmbProducto">
                                             <!-- Opciones del select2 -->
                                           </select>
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control" id="Cantidad">
+                                        <input type="text" class="form-control" id="Cantidad" min="0">
+                                    </td>
+                                    <td style="width: 100px!important;">
+                                        <input type="text" class="form-control" id="Precio" min="0">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control" id="Precio">
+                                        <input type="text" class="form-control" id="Descuento" min="0">
+                                    </td>
+                                    <td style="width: 150px!important;">
+                                        <input type="text" class="form-control" id="Total">
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control" id="Descuento">
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control" id="Descuento">
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-primary">Agregar </button>
+                                        <button id="btn-agregar" class="btn btn-primary">Agregar </button>
                                     </td>
                                 </tr>
                               <!-- Filas de productos agregados -->
                             </tbody>
                           </table>
                         </div>
+                        </div>
                       </div>
-  
           <!-- Tabla de detalle de productos -->
           <div class="card mt-3">
             <div class="card-header">
               Detalle de productos agregados
             </div>
             <div class="card-body">
-              <table class="table">
+              <table class="table" id="tbl-detalle-productos">
                 <thead>
                   <tr>
                     <th>Producto</th>
@@ -155,9 +161,10 @@
                     <th>Precio</th>
                     <th>Descuento</th>
                     <th>Total</th>
+                    <th>...</th>
                   </tr>
                 </thead>
-                <tbody id="tblDetalleProductos">
+                <tbody>
                   <!-- Filas de productos agregados -->
                 </tbody>
               </table>
@@ -170,19 +177,19 @@
               <div class="form-row justify-content-end">
                 <div class="form-group col-md-4">
                   <label for="subtotal">Subtotal</label>
-                  <input type="number" class="form-control text-right" id="Subtotal">
+                  <input type="number" class="form-control text-right" id="txtSubtotal">
                 </div>
               </div>
               <div class="form-row justify-content-end">
                 <div class="form-group col-md-4">
                   <label for="descuento">Descuento</label>
-                  <input type="number" class="form-control text-right" id="Descuento">
+                  <input type="number" class="form-control text-right" id="txtDescuento">
                 </div>
               </div>
               <div class="form-row justify-content-end">
                 <div class="form-group col-md-4">
                   <label for="total">Total</label>
-                  <input type="number" class="form-control text-right" id="Total">
+                  <input type="number" class="form-control text-right" id="txtTotal">
                 </div>
               </div>
             </div>
@@ -200,5 +207,5 @@
   
       
 </body>
-<script src="/assets/js/AdminProducto.js"></script>
+<script src="/assets/js/AdminVentas.js"></script>
 </html>
