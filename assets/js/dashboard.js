@@ -3,16 +3,24 @@ $(document).ready(function () {
     let EstaLogueado = localStorage.getItem("UsuarioLogueado")
 
     if(!EstaLogueado){
-        window.location.href = window.location.origin
+        if(window.location.href.includes("localhost") || window.location.href.includes("127.0.0.1")){
+            window.location.href = window.location.origin
+        }else{
+            window.location.href = 'https://paulinozelaya.github.io/ProyectoSistemaInformacion/'
+        }
         return false;
     }
 
     $("#btnCerrarSesion").click(function(){
-        window.location.href = window.location.origin
+        if(window.location.href.includes("localhost") || window.location.href.includes("127.0.0.1")){
+            window.location.href = window.location.origin
+        }else{
+            window.location.href = 'https://paulinozelaya.github.io/ProyectoSistemaInformacion/'
+        }
     })
 
     if($("#mainContent").html() == ''){
-        loadPage("/pages/home.html")
+        loadPage("pages/home.html")
     }
 
   $('.solo-numero').bind('keypress', function (e) {
